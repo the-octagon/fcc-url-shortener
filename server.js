@@ -20,7 +20,7 @@ app.get('/new/:url(*)', function (req, res) {
   
   //validate url
   if (!validUrl.isWebUri(url)) {
-        res.send("That is not a valid url.");
+        res.send({"error":"Wrong url format, make sure you have a valid protocol and real site."});
         return 0;
   }
   //will not check to see if address is already shortened, in the vein of bit.ly or similar which provides tracking metrics for individual users
@@ -39,11 +39,10 @@ app.get('/new/:url(*)', function (req, res) {
 //accept short urls for redirect
 app.get('/:id', function (req, res) {
   var id = req.params.id;
-  
-  try {
+  if (savedLinks.hasOwnProperty(id)) {
       res.redirect(savedLinks[id]);
-  } catch (err) {
-      res.send("You have entered an invalid short url.");
+  } else {
+      res.send({"error":"This url is not on the database."});
   }
 });
 
