@@ -12,6 +12,8 @@ var savedLinks = [];
 //accept new urls and send short url
 app.get('/new/:url(*)', function (req, res) {
   var url = req.params.url;
+  
+  
   var id = savedLinks.length;
   var newLink = {"original_url": url, "short_url": "https://api-projects-theoctagon.c9users.io/" + id}
   savedLinks.push(newLink);
@@ -26,11 +28,10 @@ app.get('/:id', function (req, res) {
   try {
       res.redirect(savedLinks[id].original_url);
   } catch (err) {
-      console.log(err);
       res.send("You have entered an invalid short url.");
   }
 })
 
 app.listen(8080, function () {
-  console.log('Timestamp server is running');
+  console.log('URL shortener server is running');
 })
